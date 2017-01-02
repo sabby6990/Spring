@@ -4,8 +4,25 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans  
                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+	<!-- simple bean definition with SI -->
 	<bean id="studentbean" class="org.test.beans.Student">
 		<property name="name" value="Saurabh Amin"></property>
 	</bean>
 
+	<!-- CI with objects -->
+	<bean id="trooper1" class="org.test.beans.StormTrooper">
+		<constructor-arg value="sheldon cooper" />
+		<constructor-arg value="lead trooper" />
+		<constructor-arg value="100" />
+	</bean>
+
+	<bean id="darkside1" class="org.test.beans.DarkSide">
+		<constructor-arg value="Darth vader" />
+		<constructor-arg>
+			<ref bean="trooper1" />
+		</constructor-arg>
+	</bean>
+	<!-- CI with objects -->
+	
+	
 </beans>
