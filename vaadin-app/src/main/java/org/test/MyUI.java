@@ -4,7 +4,9 @@ import javax.servlet.annotation.WebServlet;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.test.beans.Customer;
 import org.test.beans.DarkSide;
+import org.test.beans.DarkSideArmy;
 import org.test.beans.Student;
 
 import com.vaadin.annotations.Theme;
@@ -36,11 +38,11 @@ public class MyUI extends UI {
 		final VerticalLayout rightPanel = new VerticalLayout();
 		final HorizontalSplitPanel hSplitPanel = new HorizontalSplitPanel();
 		Label displayContentLbl = new Label();
-		Button button = new Button("Simple bean");
+		Button button = new Button("autowired by name");
 		button.addClickListener(e -> {
-			context = new ClassPathXmlApplicationContext("application.xml");
-			Student student = (Student) context.getBean("studentbean");
-			displayContentLbl.setValue(student.getName());
+			context = new ClassPathXmlApplicationContext("si_applicationcontext.xml");
+			Customer student = (Customer) context.getBean("customer");
+			displayContentLbl.setValue(student.getAddress().getFullAddress());
 		});
 
 		Button button1 = new Button("CI with Object");
@@ -52,7 +54,35 @@ public class MyUI extends UI {
 
 		});
 
-		leftPanel.addComponents(button, button1);
+		Button button2 = new Button("CI with list objects");
+		StringBuffer strBuffer = new StringBuffer();
+		button2.addClickListener(e -> {
+			context = new ClassPathXmlApplicationContext("application.xml");
+			DarkSideArmy darksideArmy = (DarkSideArmy) context.getBean("darksideArmy");
+			darksideArmy.getArmy().forEach(trooper -> {
+				strBuffer.append(trooper.getName()+"\n");
+			});
+			displayContentLbl.setValue(strBuffer.toString());
+
+		});
+		
+		Button beanWithParentBtn = new Button("CI with Object");
+		beanWithParentBtn.addClickListener(e -> {
+			context = new ClassPathXmlApplicationContext("application.xml");
+			Student studentObj = (Student) context.getBean("student");
+			displayContentLbl.setValue(
+					"leader: " + studentObj.getName() + " trooper name: " + studentObj.show());
+
+		});
+		
+		Button autoWireByTypeBtn = new Button("autowired by constructor");
+/*		autoWireByTypeBtn.addClickListener(e -> {
+			context = new ClassPathXmlApplicationContext("si_applicationcontext.xml");
+			Customer customerObj = (Customer) context.getBean("customerByType");
+			displayContentLbl.setValue(customerObj.getAddress().getFullAddress());
+		});*/
+
+		leftPanel.addComponents(button, button1, button2,beanWithParentBtn,autoWireByTypeBtn);
 		leftPanel.setMargin(true);
 		leftPanel.setSpacing(true);
 

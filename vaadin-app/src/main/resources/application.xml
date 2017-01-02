@@ -5,15 +5,21 @@
                http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<!-- simple bean definition with SI -->
-	<bean id="studentbean" class="org.test.beans.Student">
-		<property name="name" value="Saurabh Amin"></property>
-	</bean>
+<!-- 	<bean id="studentbean" class="org.test.beans.Student"> -->
+<!-- 		<property name="name" value="Saurabh Amin"></property> -->
+<!-- 	</bean> -->
 
 	<!-- CI with objects -->
 	<bean id="trooper1" class="org.test.beans.StormTrooper">
 		<constructor-arg value="sheldon cooper" />
 		<constructor-arg value="lead trooper" />
 		<constructor-arg value="100" />
+	</bean>
+
+	<bean id="trooper2" class="org.test.beans.StormTrooper">
+		<constructor-arg value="rajesh kuthrapali" />
+		<constructor-arg value="trooper" />
+		<constructor-arg value="101" />
 	</bean>
 
 	<bean id="darkside1" class="org.test.beans.DarkSide">
@@ -23,6 +29,26 @@
 		</constructor-arg>
 	</bean>
 	<!-- CI with objects -->
-	
-	
+
+	<!-- Ci with collections -->
+	<bean id="darksideArmy" class="org.test.beans.DarkSideArmy">
+		<constructor-arg value="Lord Darth vader" />
+		<constructor-arg>
+			<list>
+				<ref bean="trooper1" />
+				<ref bean="trooper2" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<!-- Ci with collections -->
+
+	<!-- Ci with parent inheritance -->
+	<bean id="school" class="org.test.beans.School">
+	<constructor-arg value="st francis"/>
+	</bean>
+	<bean id="student" class="org.test.beans.Student" parent="school">
+	</bean>
+	<!-- Ci with parent inheritance -->
+
 </beans>
