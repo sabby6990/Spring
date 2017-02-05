@@ -2,7 +2,9 @@ package org.test;
 
 import javax.servlet.annotation.WebServlet;
 
-import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.test.beans.Customer;
 import org.test.beans.DarkSide;
@@ -29,9 +31,11 @@ import com.vaadin.ui.VerticalLayout;
  * initialize non-component functionality.
  */
 @Theme("mytheme")
-public class MyUI extends UI {
-	AbstractApplicationContext context = null;
+public class MyUI extends UI implements ApplicationContextAware{
+	//AbstractApplicationContext context = null;
 
+	ApplicationContext context ;
+	
 	@Override
 	protected void init(VaadinRequest vaadinRequest) {
 		final VerticalLayout leftPanel = new VerticalLayout();
@@ -63,6 +67,7 @@ public class MyUI extends UI {
 				strBuffer.append(trooper.getName()+"\n");
 			});
 			displayContentLbl.setValue(strBuffer.toString());
+			
 
 		});
 		
@@ -96,5 +101,11 @@ public class MyUI extends UI {
 	@VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
 	public static class MyUIServlet extends VaadinServlet {
 
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext context) throws BeansException {
+		// TODO Auto-generated method stub
+		this.context=context;
 	}
 }
